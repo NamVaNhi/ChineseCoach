@@ -2,5 +2,7 @@ streamlit
 pandas
 requests
 langchain
+langchain-community
 sentence-transformers
 openpyxl
+faiss-cpu
