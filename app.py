@@ -176,4 +176,4 @@ if st.session_state.history:
 
 
 # Footer
-st.markdown("<div class='footer'>© 2025 Nam - ChineseCoach</div>", unsafe_allow_html=True)
+st.markdown("<div class='footer'>© 2025 NCKH - ChineseCoach</div>", unsafe_allow_html=True)
