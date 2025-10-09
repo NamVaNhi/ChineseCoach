@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import requests
 import json
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
-
+import base64
+import requests
 # Cấu hình trang
 st.set_page_config(page_title="Trợ lý AI Hán–Việt", layout="centered", page_icon="📘")
 
@@ -118,9 +118,21 @@ Kết thúc bằng một câu trò chuyện nhẹ nhàng.
 
 # Phát âm (giả lập bằng Google Translate)
 def speak(text):
-    st.markdown(f"""
-        <p>🔊 <a href="https://translate.google.com/translate_tts?ie=UTF-8&q={text}&tl=vi&client=tw-ob" target="_blank">Bấm vào đây để nghe phát âm</a></p>
-    """, unsafe_allow_html=True)
+    # Tạo URL TTS
+    url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={text}&tl=vi&client=tw-ob"
+
+    # Tải dữ liệu âm thanh
+    response = requests.get(url)
+    if response.status_code == 200:
+        b64 = base64.b64encode(response.content).decode()
+        audio_html = f"""
+        <audio autoplay>
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+        </audio>
+        """
+        st.components.v1.html(audio_html, height=0)
+    else:
+        st.warning("Không thể phát âm từ này.")
 
 
 # Nhập liệu
